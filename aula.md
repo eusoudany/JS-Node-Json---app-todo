@@ -6,3 +6,9 @@
 -Coletar os Dados
 -Processar os dados (Manipular, Alterar...)
 -Apresentar os Dados
+
+## Escopo de variéveis
+
+## Tipos de dados
+
+## Operadores
