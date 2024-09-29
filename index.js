@@ -1,13 +1,25 @@
 const { select, input, checkbox } = require('@inquirer/prompts');
 
+const fs = require("fs").promises
+
 let mensagem = "Bem vindo ao App de Metas";
 
+let metas 
 
-let meta ={
-    value:"Beber Agua",
-    checked: false,
+const carregarMetas = async () => {
+    try {
+        const dados = await fs.readFile("metas.json", "utf-8");
+        metas = JSON.parse(dados)
+    }
+    catch (erro) {
+        metas = []
+    }
 }
-let metas = [ meta ];
+
+const salvarMetas = async () => {
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
+}
+
 
 const cadastrarMeta = async () => {
     const meta = await input({message:"Digite a meta"})
@@ -18,7 +30,7 @@ const cadastrarMeta = async () => {
     }
 
     metas.push(
-        { value: meta, chacked: false }
+        { value: meta, checked: false }
     )
 
     mensagem = "Meta cadastrada com sucesso!"
@@ -40,8 +52,6 @@ metas.forEach((m) => {
     mensagem = "Nenhuma meta selecionada";
     return
  }
-
-
 
 
  respostas.forEach((resposta) => {
@@ -124,9 +134,11 @@ const mostrarMensagem = () => {
 }
 
 const start = async () =>{
+    await carregarMetas()
 
     while (true) {
         mostrarMensagem()
+        await salvarMetas()
         
   const opcao = await select ({ //awit = aguardar (toda vez que tem await, tem que dizer que é async)
     message : "Menu >",
@@ -140,8 +152,8 @@ const start = async () =>{
             value: "listar"
         },
         {
-        name: "Metas Realizadas",
-        value: "realizadas"
+            name: "Metas Realizadas",
+            value: "realizadas"
         },
         {
             name: "Metas Abertas",
@@ -184,4 +196,5 @@ const start = async () =>{
    }
 }
 }
+
 start();
