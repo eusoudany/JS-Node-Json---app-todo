@@ -25,15 +25,18 @@ const listarMetas = async () => {
    choices: [...metas],
    instructions: false,
 })
+
+metas.forEach((m) => {
+    m.checked = false
+ })
+
  if(respostas.length == 0){
     console.log("Nenhuma meta selecionada");
     return
  }
 
 
- metas.forEach((m) => {
-    m.checked = false
- })
+
 
  respostas.forEach((resposta) => {
     const meta = metas.find((m) => { //find = procurar, ele vai verificar se a resposta é igual a meta
@@ -106,7 +109,6 @@ const start = async () =>{
         break;
     case "sair":
         console.log("Até a proxima");
-        
         return
     default:
         break;
